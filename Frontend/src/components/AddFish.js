@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 const AddFish = () => {
   const [title, setTitle] = useState("");
+  const [description, setDesc] = useState("");
+  const [price, setPrice] = useState("");
   const [file, setFile] = useState("");
   const [preview, setPreview] = useState("");
   const navigate = useNavigate();
@@ -19,6 +21,8 @@ const AddFish = () => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("title", title);
+    formData.append("price", price);
+    formData.append("description", description);
     try {
       await axios.post("http://localhost:5000/products", formData, {
         headers: {
@@ -36,20 +40,46 @@ const AddFish = () => {
       <div className="column is-half">
         <form onSubmit={saveProduct}>
           <div className="field">
-            <label className="label">Nama Ikan</label>
+            <label className="label">Fish Name</label>
             <div className="control">
               <input
                 type="text"
                 className="input"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="Nama Ikan"
+                placeholder="Fish Name"
               />
             </div>
           </div>
 
           <div className="field">
-            <label className="label">Gambar</label>
+            <label className="label">Description</label>
+            <div className="control">
+              <input
+                type="text"
+                className="input"
+                value={description}
+                onChange={(e) => setDesc(e.target.value)}
+                placeholder="Description"
+              />
+            </div>
+          </div>
+          
+          <div className="field">
+            <label className="label">Price</label>
+            <div className="control">
+              <input
+                type="number"
+                className="input"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder="Price"
+              />
+            </div>
+          </div>
+
+          <div className="field">
+            <label className="label">Picture</label>
             <div className="control">
               <div className="file">
                 <label className="file-label">

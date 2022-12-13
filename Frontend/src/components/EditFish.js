@@ -4,6 +4,8 @@ import { useParams, useNavigate } from "react-router-dom";
 
 const EditFish = () => {
   const [title, setTitle] = useState("");
+  const [description, setDesc] = useState("");
+  const [price, setPrice] = useState("");
   const [file, setFile] = useState("");
   const [preview, setPreview] = useState("");
   const { id } = useParams();
@@ -16,6 +18,8 @@ const EditFish = () => {
   const getFishById = async () => {
     const response = await axios.get(`http://localhost:5000/products/${id}`);
     setTitle(response.data.name);
+    setDesc(response.data.description)
+    setPrice(response.data.price);
     setFile(response.data.image);
     setPreview(response.data.url);
   };
@@ -31,6 +35,8 @@ const EditFish = () => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("title", title);
+    formData.append("price", price);
+    formData.append("description", description);
     try {
       await axios.patch(`http://localhost:5000/products/${id}`, formData, {
         headers: {
@@ -48,14 +54,40 @@ const EditFish = () => {
       <div className="column is-half">
         <form onSubmit={updateFish}>
           <div className="field">
-            <label className="label">Nama Ikan</label>
+            <label className="label">Fish Name</label>
             <div className="control">
               <input
                 type="text"
                 className="input"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="Nama Ikan"
+                placeholder="Fish Name"
+              />
+            </div>
+          </div>
+
+          <div className="field">
+            <label className="label">Description</label>
+            <div className="control">
+              <input
+                type="text"
+                className="input"
+                value={description}
+                onChange={(e) => setDesc(e.target.value)}
+                placeholder="Description"
+              />
+            </div>
+          </div>
+
+          <div className="field">
+            <label className="label">Price</label>
+            <div className="control">
+              <input
+                type="text"
+                className="input"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder="Price"
               />
             </div>
           </div>
